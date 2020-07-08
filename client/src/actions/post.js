@@ -29,13 +29,13 @@ export const getPosts = () => async (dispatch) => {
 };
 
 // Add like
-export const addLike = (id) => async (dispatch) => {
+export const addLike = (postId) => async (dispatch) => {
   try {
-    const res = await api.put(`/posts/like/${id}`);
+    const res = await api.put(`/posts/like/${postId}`);
 
     dispatch({
       type: UPDATE_LIKES,
-      payload: { id, likes: res.data },
+      payload: { postId, likes: res.data },
     });
   } catch (err) {
     dispatch({
@@ -46,13 +46,13 @@ export const addLike = (id) => async (dispatch) => {
 };
 
 // Remove like
-export const removeLike = (id) => async (dispatch) => {
+export const removeLike = (postId) => async (dispatch) => {
   try {
-    const res = await api.put(`/posts/unlike/${id}`);
+    const res = await api.put(`/posts/unlike/${postId}`);
 
     dispatch({
       type: UPDATE_LIKES,
-      payload: { id, likes: res.data },
+      payload: { postId, likes: res.data },
     });
   } catch (err) {
     dispatch({
@@ -63,13 +63,13 @@ export const removeLike = (id) => async (dispatch) => {
 };
 
 // Delete post
-export const deletePost = (id) => async (dispatch) => {
+export const deletePost = (postId) => async (dispatch) => {
   try {
-    await api.delete(`/posts/${id}`);
+    await api.delete(`/posts/${postId}`);
 
     dispatch({
       type: DELETE_POST,
-      payload: id,
+      payload: postId,
     });
 
     dispatch(setAlert("Post Removed", "success"));
@@ -101,9 +101,9 @@ export const addPost = (formData) => async (dispatch) => {
 };
 
 // Get post
-export const getPost = (id) => async (dispatch) => {
+export const getPost = (postId) => async (dispatch) => {
   try {
-    const res = await api.get(`/posts/${id}`);
+    const res = await api.get(`/posts/${postId}`);
 
     dispatch({
       type: GET_POST,
