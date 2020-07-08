@@ -1,0 +1,7 @@
+{
+  "mongoURI": "mongodb+srv://anuragh:anuragh@devconnector-rbn0z.mongodb.net/db?retryWrites=true&w=majority",
+  "jwtSecret": "mySecretToken",
+  "githubClientId": "8ca18d4ee77dcafd7641",
+  "githubSecret": "f869cc0d67d41330bbaf129ea64cd6a36c4052c1",
+  "githubToken": "1ec834771ff1b8de5419947c90d1ac0adbf476c9"
+}
