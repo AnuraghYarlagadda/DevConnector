@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { connect } from "react-redux";
-import { addLike, removeLike, deletePost } from "../../actions/post";
+import { updateLike, deletePost } from "../../actions/post";
+import { BsFillHeartFill } from "react-icons/bs";
 
 const PostItem = ({
-  addLike,
-  removeLike,
+  updateLike,
   deletePost,
   auth,
   post: { _id, text, name, avatar, user, likes, comments, date },
@@ -30,18 +30,39 @@ const PostItem = ({
         <Fragment>
           <button
             type="button"
-            className="btn btn-light"
-            onClick={() => addLike(_id)}
+            className="btn btn-dark"
+            onClick={() => updateLike(_id)}
           >
-            <i className="fas fa-thumbs-up"></i>{" "}
+            {!auth.loading
+              ? (console.log(likes.map((like) => like.user.toString())),
+                console.log(auth.user._id),
+                console.log(
+                  likes.length > 0 &&
+                    likes
+                      .map((like) => like.user.toString())
+                      .includes(auth.user._id)
+                ))
+              : console.log("HI")}
+            <Fragment>
+              {likes.length > 0 &&
+              !auth.loading &&
+              likes
+                .map((like) => like.user.toString())
+                .includes(auth.user._id) ? (
+                <BsFillHeartFill
+                  color="#f44336"
+                  size="25px"
+                  style={{ margin: "0 5px" }}
+                />
+              ) : (
+                <BsFillHeartFill
+                  color="#FFFFFF"
+                  size="25px"
+                  style={{ margin: "0 5px" }}
+                />
+              )}
+            </Fragment>{" "}
             {likes.length > 0 && <span>{likes.length}</span>}
-          </button>
-          <button
-            type="button"
-            className="btn btn-light"
-            onClick={() => removeLike(_id)}
-          >
-            <i className="fas fa-thumbs-down"></i>
           </button>
           <Link to={`/posts/${_id}`} className="btn btn-primary">
             Discussion{" "}
@@ -49,6 +70,7 @@ const PostItem = ({
               <span className="comment-count">{comments.length}</span>
             )}
           </Link>
+
           {!auth.loading && user === auth.user._id && (
             <button
               type="button"
@@ -71,8 +93,7 @@ PostItem.defaultProps = {
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  addLike: PropTypes.func.isRequired,
-  removeLike: PropTypes.func.isRequired,
+  updateLike: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
 };
 
@@ -80,6 +101,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { addLike, removeLike, deletePost })(
-  PostItem
-);
+export default connect(mapStateToProps, { updateLike, deletePost })(PostItem);
